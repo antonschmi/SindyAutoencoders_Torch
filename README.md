@@ -40,25 +40,30 @@ src/
   model.py         - SindyAutoencoder (nn.Module): encoder/decoder, SINDy library, loss
   training.py      - GPU-resident training loop, sequential thresholding, checkpointing
 examples/
-  lorenz/          - data.py, train_lorenz.py, analyze_lorenz.py
-  pendulum/        - data.py, train_pendulum.py, analyze_pendulum.py  (model_order=2)
-  rd/              - data.py, train_rd.py, analyze_rd.py  (see caveat below)
+  lorenz/          - data.py, train_lorenz.ipynb, analyze_lorenz.ipynb
+  pendulum/        - data.py, train_pendulum.ipynb, analyze_pendulum.ipynb  (model_order=2)
+  rd/              - data.py, train_rd.ipynb, analyze_rd.ipynb  (see caveat below)
 ```
 
 ## Running
 
-From inside an example's own directory (matches the original notebooks'
-convention - relative imports assume this):
+`train_*.ipynb` and `analyze_*.ipynb` are notebooks (the data/model/training
+code stays in plain `.py` modules, same split as the original repo). Each
+notebook's first code cell sets up paths and `chdir`s into its own example
+folder - edit `REPO_ROOT` there if you've uploaded/cloned this repo somewhere
+other than `/content/SindyAutoencoders_Torch` on Colab.
 
-```bash
-cd examples/lorenz
-python train_lorenz.py      # trains, saves <name>.pt + <name>_params.pkl + a results dataframe
-python analyze_lorenz.py model1   # loads a checkpoint and reports reconstruction/SINDy error
-```
+**On Colab:** upload (or `git clone`) this whole `SindyAutoencoders_Torch`
+folder, open e.g. `examples/lorenz/train_lorenz.ipynb`, set `Runtime ->
+Change runtime type -> GPU`, then Run All. `analyze_lorenz.ipynb` loads
+whatever checkpoint `train_lorenz.ipynb` saved (just edit the `save_name`
+variable at the top).
 
-Same pattern for `pendulum/`. `train_*.py` auto-detects a GPU
-(`torch.cuda.is_available()`); on Colab, just `Runtime -> Change runtime type
--> GPU` first.
+**Locally:** open the notebook with Jupyter from inside its own example
+directory, same as the original repo's notebooks.
+
+Both train and analyze notebooks auto-detect a GPU via
+`torch.cuda.is_available()` and print which device they're using.
 
 ## Deliberate differences from the original
 
